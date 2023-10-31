@@ -2,50 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Authentication</title>
 </head>
 <body>
     <h1>Login</h1>
-    <form id="loginForm">
+    <form id="login-form">
         <label for="username">Username:</label>
-        <input type="text" id="username" required>
-
+        <input type="text" id="username" name="username" required>
+        <br>
         <label for="password">Password:</label>
-        <input type="password" id="password" required>
-
-        <button type="submit">Login</button>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
     </form>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
+        document.getElementById('login-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
             fetch('/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     username: username,
-                    password: password
-                })
+                    password: password,
+                }),
             })
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Invalid credentials');
-            })
-            .then(function (data) {
-                alert('Login successful');
+            .then(response => response.json())
+            .then(data => {
                 console.log(data);
+                window.
             })
-            .catch(function (error) {
-                alert(error.message);
-            });
+
         });
     </script>
 </body>

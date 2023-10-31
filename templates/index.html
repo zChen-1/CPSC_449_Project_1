@@ -1,18 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<a href="/Authentication">
-    <button>Authentication</button>
-</a>
-<a href="File%20Handling.html">
-    <button>File Handling</button>
-</a>
-<a href="Public%20and%20Admin.html">
-    <button>Public and Admin routes</button>
-</a>
+
+<h2>Login</h2>
+
+<form id="login-form">
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required>
+
+  <input type="submit" value="Login">
+</form>
+
+<script>
+  $(document).ready(function() {
+    $('#login-form').on('submit', function(e) {
+      e.preventDefault();
+
+      const username = $('#username').val();
+      const password = $('#password').val();
+
+      $.ajax({
+        url: 'http://127.0.0.1:5000/login',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: username,
+          password: password
+        }),
+        success: function(response) {
+          console.log('Token:', response.token);
+        },
+        error: function(response) {
+          console.log('Error:', response.responseText);
+        }
+      });
+    });
+  });
+</script>
+
 </body>
 </html>
