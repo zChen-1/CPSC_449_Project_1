@@ -9,17 +9,34 @@
 
 <h2>Login</h2>
 
-<form id="login-form">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
+<form id="login-form" method="post" action="/login">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
 
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
 
-  <input type="submit" value="Login">
+    <input type="submit" value="Login">
 </form>
 
+<button onclick="redirectTo('public')">Public</button>
+<button onclick="redirectTo('upload')">Upload File</button>
+<button onclick="redirectTo('services')">Services</button>
+
+
 <script>
+    function redirectTo(page) {
+        // Define the mapping of button names to URLs
+        const pageUrls = {
+            'public': '/public',
+            'upload': '/upload',
+            'services': '/services'
+        };
+
+        // Redirect to the selected page
+        window.location.href = pageUrls[page];
+    }
+
   $(document).ready(function() {
     $('#login-form').on('submit', function(e) {
       e.preventDefault();
@@ -30,13 +47,14 @@
       $.ajax({
         url: 'http://127.0.0.1:5000/login',
         type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
+        contentType: 'application/x-www-form-urlencoded', // Change content type
+        data: {
           username: username,
           password: password
-        }),
+        },
         success: function(response) {
-          console.log('Token:', response.token);
+          // Redirect to the upload page with the token as a query parameter
+          window.location.href = '/admin?token=' + response.access_token;
         },
         error: function(response) {
           console.log('Error:', response.responseText);
@@ -45,6 +63,7 @@
     });
   });
 </script>
+
 
 </body>
 </html>
