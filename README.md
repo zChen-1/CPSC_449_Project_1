@@ -1,4 +1,4 @@
-##
+##CPSC 449 Project 1##
 python -m venv venv
 .\venv\Scripts\activate
 
